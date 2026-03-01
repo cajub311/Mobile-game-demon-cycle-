@@ -1,8 +1,18 @@
-# Demon Cycle — Mobile Game
+# Demon Cycle
 
-A dark fantasy survival mobile game built with **Expo + React Native + TypeScript**.
+A dark fantasy mobile survival game built with **Godot 4 (GDScript)**.
 
-Survive nightly waves of corelings (demons) using magical wards. Inspired by *The Demon Cycle* series.
+Survive nightly waves of corelings (demons) by painting magical ward runes on the ground.
+
+---
+
+## How to Open
+
+1. Download **Godot 4.3** from [godotengine.org](https://godotengine.org/download)
+2. Open Godot → **Import** → select this folder (`project.godot`)
+3. Press **F5** or the ▶ Play button to run
+
+> For mobile export, see [Godot Android export docs](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 
 ---
 
@@ -10,58 +20,47 @@ Survive nightly waves of corelings (demons) using magical wards. Inspired by *Th
 
 | Phase | Duration | What happens |
 |-------|----------|-------------|
-| ☀ **Day** | 30 seconds | Prepare — move your ward painter and place protective runes |
-| 🌙 **Night** | 50 seconds | Corelings rise — they march toward you, use wards to stop them |
+| ☀ **Day**   | 30 s | Prepare — move your character and plant ward runes |
+| 🌙 **Night** | 50 s | Corelings rise and march toward you — wards burn them |
 
 ### Controls
-- **Tap** (Move Mode) → move your character to that position
-- **Toggle WARD MODE → Tap** → plant a ward rune at that location (max 5 wards)
-- **⏸ Pause** → pause/resume game
+| Action | How |
+|--------|-----|
+| Move player | Tap anywhere on the game canvas (MOVE MODE) |
+| Place ward  | Switch to **WARD MODE** → tap location |
+| Pause       | ⏸ button (top-right of HUD) |
 
-### Demon Types
-| Coreling | Appears | HP | Speed | Threat |
-|----------|---------|-----|-------|--------|
-| 🔴 Ground | Night 1 | 30 | Normal | Medium |
-| 🟠 Flame  | Night 2+ | 20 | Fast | Low HP, high speed |
-| ⬛ Rock   | Night 4+ | 85 | Slow | Tanky, high damage |
+### Coreling types
+| Name | HP | Speed | Unlock |
+|------|----|-------|--------|
+| 🔴 Ground | 30  | Normal | Night 1 |
+| 🟠 Flame  | 20  | Fast   | Night 2 |
+| ⬛ Rock   | 85  | Slow   | Night 4 |
 
 ### Scoring
 - **+50 pts** per night survived
-- **+10 pts** Ground coreling
-- **+15 pts** Flame coreling
-- **+25 pts** Rock coreling
+- **+10** Ground · **+15** Flame · **+25** Rock
 
 ---
-
-## Setup & Run
-
-```bash
-npm install
-npx expo start
-```
-
-- Press `a` for Android emulator
-- Press `i` for iOS simulator
-- Scan QR code with **Expo Go** app for physical device
 
 ## Project Structure
 
 ```
-src/
-├── game/
-│   ├── types.ts        # TypeScript interfaces
-│   ├── constants.ts    # Tunable game parameters
-│   └── engine.ts       # Core game logic (tick, spawn, combat)
-├── screens/
-│   ├── MenuScreen.tsx  # Main menu with how-to-play
-│   ├── GameScreen.tsx  # Game canvas + HUD + game loop
-│   └── GameOverScreen.tsx
+project.godot          ← Godot project config + autoload registration
+icon.svg               ← App icon (ward star symbol)
+scenes/
+  Menu.tscn            ← Main menu scene
+  Game.tscn            ← Gameplay scene
+  GameOver.tscn        ← Defeat screen
+scripts/
+  GameData.gd          ← Autoload singleton (passes score between scenes)
+  Menu.gd              ← Menu UI + decorative drawing
+  Game.gd              ← Game loop, entities, drawing, HUD
+  GameOver.gd          ← Defeat screen UI + drawing
 ```
 
-## Tech Stack
+## Tech
 
-- [Expo](https://expo.dev) ~52
-- React Native 0.76
-- TypeScript
-- react-native-svg (rendering)
-- React Navigation (screen management)
+- Godot Engine 4.3
+- GDScript
+- Pure procedural rendering via `_draw()` — no external assets needed

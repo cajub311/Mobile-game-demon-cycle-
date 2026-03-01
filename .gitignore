@@ -1,10 +1,17 @@
-node_modules/
-.expo/
-dist/
-web-build/
-*.log
-.env
-.env.local
+# Godot
+.godot/
+*.tmp
+*.translation
+export.cfg
+export_presets.cfg
+*.import
+.import/
+android/build/
+
+# OS
 .DS_Store
-ios/
-android/
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
