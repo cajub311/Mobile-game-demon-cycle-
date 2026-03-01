@@ -1,0 +1,16 @@
+{
+  "id": "demon_ichor",
+  "name": "Demon Ichor",
+  "description": "The caustic black blood of a coreling. Used in ward ink and certain dark rituals.",
+  "type": "material",
+  "rarity": "common",
+  "stackable": true,
+  "max_stack": 99,
+  "use_effect": {
+    "heal": 0,
+    "corruption_change": 0.0
+  },
+  "shop_price": 5,
+  "sell_price": 3,
+  "lore": "Demon ichor burns skin on contact and smells of hot iron and rot. Properly refined by a skilled Warder, it becomes the base for ward ink that adheres to any surface permanently. The Krasian Sharum collect it as a matter of course after every night's battle. Northerners tend to leave it on the ground."
+}

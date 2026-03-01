@@ -1,0 +1,41 @@
+{
+  "id": "leesha",
+  "name": "Leesha Paper",
+  "title": "Herb Gatherer",
+  "role": "companion",
+  "location": "tibben_brook",
+  "description": "Brilliant herbalist and healer from Cutter's Hollow. Her potions can turn the tide of a night.",
+  "lore": "Leesha Paper is the most gifted herb gatherer in the Free Cities, trained by Bruna the ancient. She fled her controlling mother Elona and an arranged marriage to devote herself to healing. Though she carries no weapon, her knowledge of plants and her rare courage make her invaluable — if you can earn her trust. She will leave if she senses you are walking the demon path.",
+  "personality": {
+    "brave": 0.6,
+    "kind": 0.9,
+    "greedy": 0.1
+  },
+  "corruption_reactions": {
+    "low": {
+      "greeting": "Creator's light, it's good to see you. What do you need?",
+      "disposition": "friendly",
+      "price_modifier": 0.85
+    },
+    "mid": {
+      "greeting": "You've been in the night too long. I can see it in your eyes.",
+      "disposition": "cautious",
+      "price_modifier": 1.0
+    },
+    "high": {
+      "greeting": "Stay back. I don't know what you are anymore.",
+      "disposition": "hostile",
+      "price_modifier": 1.5
+    }
+  },
+  "companion_stats": {
+    "is_recruitable": true,
+    "health": 50,
+    "ability": "craft_potion",
+    "leaves_above_corruption": 0.5
+  },
+  "visual": {
+    "color_hex": "#E8C87A",
+    "shape": "circle"
+  }
+}

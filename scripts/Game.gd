@@ -78,6 +78,9 @@ var _timer_lbl    : Label
 var _score_lbl    : Label
 var _hp_fill      : ColorRect
 var _hp_bar_bg    : ColorRect
+var _hp_val_lbl   : Label
+var _corr_fill    : ColorRect
+var _corr_bar_bg  : ColorRect
 var _mode_btn     : Button
 var _ward_ct_lbl  : Label
 var _pause_btn    : Button
@@ -148,8 +151,24 @@ func _build_hud() -> void:
 	_hp_fill.size     = _hp_bar_bg.size
 	layer.add_child(_hp_fill)
 
-	var hp_val := _make_label("10/10", Vector2(screen_size.x - 42, top_y + 40), 11, Color(0.7, 0.7, 0.7))
-	layer.add_child(hp_val)
+	_hp_val_lbl = _make_label("10/10", Vector2(screen_size.x - 42, top_y + 40), 11, Color(0.7, 0.7, 0.7))
+	layer.add_child(_hp_val_lbl)
+
+	# Corruption bar
+	var corr_lbl := _make_label("CORR", Vector2(12, top_y + 56), 9, Color(0.55, 0.25, 0.7))
+	layer.add_child(corr_lbl)
+
+	_corr_bar_bg = ColorRect.new()
+	_corr_bar_bg.color    = Color(0.11, 0.11, 0.18)
+	_corr_bar_bg.position = Vector2(42.0, top_y + 56.0)
+	_corr_bar_bg.size     = Vector2(screen_size.x - 86.0, 7.0)
+	layer.add_child(_corr_bar_bg)
+
+	_corr_fill = ColorRect.new()
+	_corr_fill.color    = Color(0.0, 0.5, 1.0)
+	_corr_fill.position = _corr_bar_bg.position
+	_corr_fill.size     = Vector2(0.0, 7.0)
+	layer.add_child(_corr_fill)
 
 	# Row 3 – mode toggle  --------------------------------------------------
 	var hint := _make_label("👆 Tap to move", Vector2(12, top_y + 74), 11, Color(0.55, 0.55, 0.55))
@@ -205,9 +224,6 @@ func _input(event: InputEvent) -> void:
 
 	if event is InputEventScreenTouch and event.pressed:
 		pos = event.position
-	elif event is InputEventMouseButton and (event as InputEventMouseButton).pressed \
-			and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
-		pos = (event as InputEventMouseButton).position
 	else:
 		return
 
@@ -279,15 +295,11 @@ func _tick_spawn(delta: float) -> void:
 		spawn_timer = spawn_interval
 
 func _spawn_demon() -> void:
-	var types := ["ground"]
-	if day_count >= 2: types.append("flame")
-	if day_count >= 4: types.append("rock")
+	var gh        : float = screen_size.y - hud_height
+	var diff_mult : float = 1.0 + (day_count - 1) * 0.12
+	var spawn_mult: float = CorruptionManager.get_demon_spawn_multiplier()
 
-	var type      : String = types[randi() % types.size()]
-	var stats     : Array  = DEMON_STATS[type]
-	var diff_mult : float  = 1.0 + (day_count - 1) * 0.12
-	var gh        : float  = screen_size.y - hud_height
-
+	# Edge spawn position
 	var edge := randi() % 4
 	var pos  : Vector2
 	match edge:
@@ -296,19 +308,78 @@ func _spawn_demon() -> void:
 		2: pos = Vector2(randf() * screen_size.x, gh + 28.0)
 		_: pos = Vector2(-28.0, randf() * gh)
 
+	var entity : Dictionary
+
+	# --- Try DataRegistry first ---
+	if DataRegistry.demons.size() > 0:
+		# Collect eligible demons for this day
+		var eligible : Array = []
+		for demon_key in DataRegistry.demons:
+			var d : Dictionary = DataRegistry.demons[demon_key]
+			var cond : Dictionary = d.get("spawn_conditions", {})
+			if (cond.get("min_day", 1) as int) <= day_count:
+				eligible.append(d)
+
+		if eligible.size() > 0:
+			# Weighted random selection
+			var total_weight : float = 0.0
+			for d in eligible:
+				total_weight += (d.get("spawn_weight", 0.1) as float)
+			var roll   : float = randf() * total_weight
+			var cumul  : float = 0.0
+			var chosen : Dictionary = eligible[0]
+			for d in eligible:
+				cumul += (d.get("spawn_weight", 0.1) as float)
+				if roll <= cumul:
+					chosen = d
+					break
+
+			var vis       : Dictionary = chosen.get("visual", {})
+			var color_hex : String     = vis.get("color_hex", "#E63836")
+			entity = {
+				"id"        : _demon_id,
+				"pos"       : pos,
+				"health"    : (chosen.get("health", 30.0) as float) * diff_mult,
+				"max_health": (chosen.get("health", 30.0) as float) * diff_mult,
+				"speed"     : (chosen.get("speed",  52.0) as float) * (1.0 + (day_count - 1) * 0.06) * spawn_mult,
+				"damage"    : chosen.get("damage", 2) as int,
+				"score_val" : chosen.get("score_value", 10) as int,
+				"color"     : Color(color_hex),
+				"type"      : _map_shape(vis.get("shape", "triangle")),
+				"atk_cd"    : 0.0,
+			}
+			demons.append(entity)
+			_demon_id += 1
+			return
+
+	# --- Fallback: hardcoded DEMON_STATS ---
+	var types := ["ground"]
+	if day_count >= 2: types.append("flame")
+	if day_count >= 4: types.append("rock")
+	var type  : String = types[randi() % types.size()]
+	var stats : Array  = DEMON_STATS[type]
 	demons.append({
-		"id"          : _demon_id,
-		"pos"         : pos,
-		"health"      : stats[0] * diff_mult,
-		"max_health"  : stats[0] * diff_mult,
-		"speed"       : (stats[1] as float) * (1.0 + (day_count - 1) * 0.06),
-		"damage"      : stats[2] as int,
-		"score_val"   : stats[3] as int,
-		"color"       : stats[4] as Color,
-		"type"        : type,
-		"atk_cd"      : 0.0,
+		"id"        : _demon_id,
+		"pos"       : pos,
+		"health"    : (stats[0] as float) * diff_mult,
+		"max_health": (stats[0] as float) * diff_mult,
+		"speed"     : (stats[1] as float) * (1.0 + (day_count - 1) * 0.06),
+		"damage"    : stats[2] as int,
+		"score_val" : stats[3] as int,
+		"color"     : stats[4] as Color,
+		"type"      : type,
+		"atk_cd"    : 0.0,
 	})
 	_demon_id += 1
+
+## Maps a JSON visual shape name to the internal renderer type string.
+func _map_shape(shape: String) -> String:
+	match shape:
+		"triangle": return "ground"
+		"diamond":  return "flame"
+		"hexagon":  return "rock"
+		"circle":   return "rock"
+		_:          return "ground"
 
 func _tick_demons(delta: float) -> void:
 	var to_kill : Array = []
@@ -358,6 +429,9 @@ func _tick_wards(delta: float) -> void:
 		wards.remove_at(to_remove[i])
 
 func _place_ward(pos: Vector2) -> void:
+	for w in wards:
+		if pos.distance_to(w["pos"] as Vector2) < 60.0:
+			return
 	if wards.size() >= MAX_WARDS:
 		wards.remove_at(0)
 	wards.append({
@@ -395,6 +469,11 @@ func _refresh_hud() -> void:
 		_hp_fill.color = Color(1.0, 0.56, 0.0)
 	else:
 		_hp_fill.color = Color(0.94, 0.60, 0.60)
+	_hp_val_lbl.text = "%d/%d" % [int(ceilf(player_hp)), int(PLAYER_MAX_HP)]
+
+	var corr := CorruptionManager.corruption
+	_corr_fill.size.x = _corr_bar_bg.size.x * corr
+	_corr_fill.color  = Color(0.0, 0.5, 1.0).lerp(Color(0.8, 0.0, 0.8), corr * 2.0).lerp(Color(0.9, 0.0, 0.0), maxf(0.0, corr - 0.5) * 2.0)
 
 	_ward_ct_lbl.text = str(wards.size()) + "/5 wards"
 	_mode_btn.text    = "WARD MODE" if is_ward_mode else "MOVE MODE"
@@ -542,6 +621,9 @@ func _on_pause() -> void:
 func _handle_game_over() -> void:
 	GameData.final_score     = score
 	GameData.nights_survived = day_count - 1
+	GameData.day_count       = day_count
+	GameData.player_pos_x    = player_pos.x
+	GameData.player_pos_y    = player_pos.y
 	await get_tree().create_timer(0.75).timeout
 	get_tree().change_scene_to_file("res://scenes/GameOver.tscn")
 

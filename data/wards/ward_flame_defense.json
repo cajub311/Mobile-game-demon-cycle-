@@ -1,0 +1,18 @@
+{
+  "id": "ward_flame_defense",
+  "name": "Flame Ward",
+  "gesture_name": "wavy_line",
+  "description": "Flows like water, smothering fire. Repels flame corelings with superior force.",
+  "type": "defensive",
+  "effect": "fire_resist",
+  "power": 1.5,
+  "duration_seconds": 25,
+  "radius": 52,
+  "dps": 28.0,
+  "effective_against": ["flame_demon"],
+  "lore": "The flame demon ward was rediscovered by Cob the Warder after reading crumbling pages of the old science. It mimics the flowing lines of water, which flame corelings instinctively recoil from. A ward that flows cannot be burned.",
+  "visual": {
+    "color": "#00AAFF",
+    "glow_intensity": 1.2
+  }
+}

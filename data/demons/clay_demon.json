@@ -1,0 +1,31 @@
+{
+  "id": "clay_demon",
+  "name": "Clay Coreling",
+  "tier": 2,
+  "behavior": "tank_charge",
+  "speed": 28.0,
+  "health": 85.0,
+  "damage": 3,
+  "score_value": 25,
+  "weakness_wards": ["ward_impact"],
+  "resistance_wards": ["ward_cutting", "ward_flame_defense"],
+  "description": "A slow armored tank that shrugs off most wards. Impact wards are the only reliable answer.",
+  "lore": "Clay corelings are squat, hulking creatures formed from the very earth. Their outer shell rivals stone for hardness and regenerates slowly when not warded. Jardir once watched a clay demon walk through a barrier ward net that would have stopped ten wood demons — the net was simply not dense enough to penetrate the thick hide. Only impact wards crack them open.",
+  "spawn_weight": 0.15,
+  "spawn_conditions": {
+    "min_day": 4,
+    "min_night_progress": 0.0,
+    "min_corruption": 0.0
+  },
+  "abilities": [],
+  "drops": {
+    "ichor": 2,
+    "hora_chance": 0.10,
+    "corruption_on_consume": 0.08
+  },
+  "visual": {
+    "color_hex": "#607D8B",
+    "shape": "hexagon",
+    "scale": 1.2
+  }
+}

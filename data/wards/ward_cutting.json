@@ -1,0 +1,18 @@
+{
+  "id": "ward_cutting",
+  "name": "Cutting Ward",
+  "gesture_name": "slash_down",
+  "description": "A blade of focused light. Slices through flame and wood demon flesh.",
+  "type": "offensive",
+  "effect": "directional_damage",
+  "power": 2.5,
+  "duration_seconds": 3,
+  "radius": 36,
+  "dps": 55.0,
+  "effective_against": ["flame_demon", "wood_demon"],
+  "lore": "The Painted Man carved cutting wards into his very skin so he could strike corelings with his bare hands. When drawn in the air, a cutting ward manifests as a razor edge of pure warding energy — brief, focused, and lethal to lesser demons.",
+  "visual": {
+    "color": "#FFFFFF",
+    "glow_intensity": 2.2
+  }
+}

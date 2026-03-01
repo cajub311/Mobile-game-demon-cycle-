@@ -1,0 +1,16 @@
+{
+  "id": "herb_tonic",
+  "name": "Herb Tonic",
+  "description": "A carefully prepared tonic of healing herbs. Restores health and slightly reduces corruption.",
+  "type": "consumable",
+  "rarity": "common",
+  "stackable": true,
+  "max_stack": 99,
+  "use_effect": {
+    "heal": 30,
+    "corruption_change": -0.05
+  },
+  "shop_price": 15,
+  "sell_price": 6,
+  "lore": "Leesha Paper's tonics are legendary. Made from nightbloom, shepherd's purse, and three parts careful intention, a single vial can close a wound that would otherwise fester. The corruption-cleansing effect is a bonus — her mentor Bruna never explained why it worked, only that it did."
+}

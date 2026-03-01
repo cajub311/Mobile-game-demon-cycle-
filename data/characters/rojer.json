@@ -1,0 +1,42 @@
+{
+  "id": "rojer",
+  "name": "Rojer Halfgrip",
+  "title": "Jongleur",
+  "role": "companion",
+  "location": "wandering",
+  "description": "A travelling jongleur with three fingers and a fiddle that can stun lesser demons.",
+  "lore": "Rojer Inn lost two fingers to a wood demon as a child, orphaned in the night. He became the greatest jongleur in the Free Cities — and discovered by accident that his fiddle music stuns certain corelings in place. He doesn't understand why it works. He only knows it does, and that he'd rather die fighting than ever hide in another cellar again.",
+  "personality": {
+    "brave": 0.4,
+    "kind": 0.7,
+    "greedy": 0.3
+  },
+  "corruption_reactions": {
+    "low": {
+      "greeting": "Rojer Halfgrip, at your service! Coin for a song?",
+      "disposition": "friendly",
+      "price_modifier": 0.9
+    },
+    "mid": {
+      "greeting": "You've got that look. The Painted Man had it too. Just... be careful.",
+      "disposition": "cautious",
+      "price_modifier": 1.0
+    },
+    "high": {
+      "greeting": "My fiddle won't protect me from you. I know that now.",
+      "disposition": "hostile",
+      "price_modifier": 1.5
+    }
+  },
+  "companion_stats": {
+    "is_recruitable": true,
+    "health": 35,
+    "ability": "fiddle_stun",
+    "stun_targets": ["tier_1"],
+    "stun_duration_seconds": 3.0
+  },
+  "visual": {
+    "color_hex": "#A0522D",
+    "shape": "circle"
+  }
+}

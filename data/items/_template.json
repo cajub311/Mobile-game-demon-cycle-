@@ -1,0 +1,1 @@
+{"id":"item_ID","name":"Name","description":"What.","type":"consumable","rarity":"common","stackable":true,"max_stack":99,"use_effect":{"heal":0,"corruption_change":0.0},"shop_price":10,"sell_price":5}

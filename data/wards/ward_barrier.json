@@ -1,0 +1,18 @@
+{
+  "id": "ward_barrier",
+  "name": "Circle of Warding",
+  "gesture_name": "circle",
+  "description": "The first ward any Warder learns. Projects a barrier that repels all corelings.",
+  "type": "defensive",
+  "effect": "barrier",
+  "power": 1.0,
+  "duration_seconds": 30,
+  "radius": 48,
+  "dps": 22.0,
+  "effective_against": ["all"],
+  "lore": "Every warder begins with the circle. Drawn correctly in a continuous stroke, it creates an invisible wall that burns any demon who crosses it. Arlen's father Jeph could draw it in his sleep — yet his wards still had gaps.",
+  "visual": {
+    "color": "#FFD700",
+    "glow_intensity": 1.0
+  }
+}

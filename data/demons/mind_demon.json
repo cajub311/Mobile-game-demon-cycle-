@@ -1,0 +1,31 @@
+{
+  "id": "mind_demon",
+  "name": "Mind Coreling",
+  "tier": 3,
+  "behavior": "possess_npc",
+  "speed": 20.0,
+  "health": 60.0,
+  "damage": 0,
+  "score_value": 50,
+  "weakness_wards": ["ward_mind_defense"],
+  "resistance_wards": ["ward_barrier", "ward_impact", "ward_cutting", "ward_flame_defense"],
+  "description": "Does not attack the body. Possesses nearby NPCs, turning them against you. Mind wards are the only defense.",
+  "lore": "Mind demons are nearly invisible in the dark — a shimmer, a wrongness in the air. They do not claw or bite. They slide into an unprotected mind like a hand into a glove, wearing a person's body while the self screams inside. The demon queen commanded an army of them. Leesha Paper called them the greatest threat in the night, worse than any flame coreling, because you cannot ward against something that wears a friendly face.",
+  "spawn_weight": 0.10,
+  "spawn_conditions": {
+    "min_day": 8,
+    "min_night_progress": 0.25,
+    "min_corruption": 0.0
+  },
+  "abilities": ["possess"],
+  "drops": {
+    "ichor": 0,
+    "hora_chance": 0.50,
+    "corruption_on_consume": 0.20
+  },
+  "visual": {
+    "color_hex": "#BB66FF",
+    "shape": "circle",
+    "scale": 1.0
+  }
+}

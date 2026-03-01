@@ -1,0 +1,31 @@
+{
+  "id": "flame_demon",
+  "name": "Flame Coreling",
+  "tier": 1,
+  "behavior": "chase",
+  "speed": 95.0,
+  "health": 20.0,
+  "damage": 1,
+  "score_value": 15,
+  "weakness_wards": ["ward_flame_defense", "ward_cutting"],
+  "resistance_wards": ["ward_impact"],
+  "description": "A fast fire lizard that darts through the night. Low health but outpaces most warders.",
+  "lore": "Flame corelings are lizard-like demons wreathed in living fire. They are faster than almost any other coreling and attack in darting bursts. Their fire can ignite unprotected wood and thatch in moments. The flame ward was rediscovered specifically to counter them after entire villages burned in a single night.",
+  "spawn_weight": 0.25,
+  "spawn_conditions": {
+    "min_day": 2,
+    "min_night_progress": 0.0,
+    "min_corruption": 0.0
+  },
+  "abilities": [],
+  "drops": {
+    "ichor": 1,
+    "hora_chance": 0.05,
+    "corruption_on_consume": 0.07
+  },
+  "visual": {
+    "color_hex": "#FF8F00",
+    "shape": "diamond",
+    "scale": 1.0
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "tibben_brook",
+  "name": "Tibben's Brook",
+  "description": "A small farming village clustered around a brook. Friendly but vulnerable — their wards are old and gapped.",
+  "biome": "grassland",
+  "population": 30,
+  "defense_rating": 0.3,
+  "ward_coverage": 0.5,
+  "position": {"x": 100, "y": 200},
+  "corruption_attitude": {
+    "tolerance": 0.4,
+    "gate_close_threshold": 0.6
+  },
+  "destroyable": true,
+  "lore": "Tibben's Brook has survived three generations by luck and prayer more than by skill. The headman repaints the wards every spring but never trained properly. Half the village believes the demons won't come if you keep the lights burning. They haven't had a bad night in five years — which means they've forgotten what a bad night looks like."
+}

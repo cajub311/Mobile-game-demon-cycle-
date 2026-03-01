@@ -53,14 +53,38 @@ scenes/
   Game.tscn            ← Gameplay scene
   GameOver.tscn        ← Defeat screen
 scripts/
-  GameData.gd          ← Autoload singleton (passes score between scenes)
-  Menu.gd              ← Menu UI + decorative drawing
-  Game.gd              ← Game loop, entities, drawing, HUD
-  GameOver.gd          ← Defeat screen UI + drawing
+  GameData.gd                   ← Cross-scene state carrier
+  Game.gd                       ← Game loop, entities, drawing, HUD
+  Menu.gd  /  GameOver.gd
+  singletons/
+    data_registry.gd            ← Scans data/ folders, exposes query helpers
+    corruption_manager.gd       ← Corruption 0–1, signals, path names
+    player_save.gd              ← Save/load  user://warded_cycle_save.tres
+  resources/
+    save_data.gd                ← SaveData Resource (@export fields)
 ```
+
+## Adding Content
+
+Copy any `_template.json`, rename it, fill the fields. DataRegistry auto-loads it next run. Files starting with `_` are ignored.
+
+```
+# New demon:   data/demons/rock_demon.json
+# New ward:    data/wards/ward_heat.json
+# New NPC:     data/characters/jardir.json
+# New village: data/villages/fort_krasia.json
+```
+
+## Corruption System
+
+| Range | Path | Effect |
+|-------|------|--------|
+| 0.0–0.3 | Ward-Bearer | Faster, cheaper, ward zones safe |
+| 0.3–0.7 | Gray Walker | Balanced |
+| 0.7–1.0 | Demon-Eater | More spawns, hostile ward zones, pricey shops |
 
 ## Tech
 
-- Godot Engine 4.3
-- GDScript
-- Pure procedural rendering via `_draw()` — no external assets needed
+- Godot 4.3 · GDScript
+- Procedural `_draw()` rendering — no sprites needed
+- Modular JSON data system — new content never requires code changes

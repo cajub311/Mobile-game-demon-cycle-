@@ -1,0 +1,31 @@
+{
+  "id": "sand_demon",
+  "name": "Sand Coreling",
+  "tier": 1,
+  "behavior": "burrowing",
+  "speed": 70.0,
+  "health": 25.0,
+  "damage": 2,
+  "score_value": 20,
+  "weakness_wards": ["ward_barrier", "ward_impact"],
+  "resistance_wards": [],
+  "description": "Burrows beneath wards and surfaces underneath. Place wards in overlapping rings.",
+  "lore": "Sand corelings are found in the dry wastes of the Krasian Desert and wherever loose earth allows. They travel underground during the day and rise in bursts to attack, slipping beneath improperly connected ward nets. The Par'chin learned to respect them after nearly losing a leg outside Fort Krasia.",
+  "spawn_weight": 0.20,
+  "spawn_conditions": {
+    "min_day": 3,
+    "min_night_progress": 0.0,
+    "min_corruption": 0.0
+  },
+  "abilities": ["burrow"],
+  "drops": {
+    "ichor": 1,
+    "hora_chance": 0.0,
+    "corruption_on_consume": 0.05
+  },
+  "visual": {
+    "color_hex": "#D4A547",
+    "shape": "triangle",
+    "scale": 1.0
+  }
+}

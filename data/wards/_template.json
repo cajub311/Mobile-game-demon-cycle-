@@ -1,0 +1,1 @@
+{"id":"ward_ID","name":"Name","gesture_name":"circle","description":"One line.","type":"defensive","effect":"barrier","power":1.0,"duration_seconds":30,"radius":48,"dps":22.0,"effective_against":["all"],"lore":"Flavor text.","visual":{"color":"#00E5FF","glow_intensity":1.0}}

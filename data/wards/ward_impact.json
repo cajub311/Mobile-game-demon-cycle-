@@ -1,0 +1,18 @@
+{
+  "id": "ward_impact",
+  "name": "Impact Ward",
+  "gesture_name": "x_cross",
+  "description": "Releases concussive force on contact. Shatters wood and clay demon armor.",
+  "type": "offensive",
+  "effect": "knockback_damage",
+  "power": 2.0,
+  "duration_seconds": 5,
+  "radius": 44,
+  "dps": 40.0,
+  "effective_against": ["wood_demon", "clay_demon"],
+  "lore": "Arlen found the impact ward in the ruins of Anoch Sun, etched into the stone gauntlet of a dead warrior. It does not merely repel — it destroys. Where a barrier ward pushes back, an impact ward shatters bone and bark with invisible concussive force.",
+  "visual": {
+    "color": "#FF6600",
+    "glow_intensity": 1.8
+  }
+}

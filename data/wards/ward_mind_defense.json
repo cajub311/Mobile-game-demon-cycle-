@@ -1,0 +1,18 @@
+{
+  "id": "ward_mind_defense",
+  "name": "Mind Ward",
+  "gesture_name": "spiral",
+  "description": "Constructs a mental labyrinth. Blocks mind coreling possession entirely.",
+  "type": "defensive",
+  "effect": "mind_shield",
+  "power": 3.0,
+  "duration_seconds": 20,
+  "radius": 56,
+  "dps": 0.0,
+  "effective_against": ["mind_demon"],
+  "lore": "Mind demons do not attack the body — they attack the self. The mind ward was not drawn on stone or wood, but on the inside of one's own skull, through years of discipline. Inevera taught it to her Dama'ting in coded hora magic. Without it, the mind coreling walks through you like an open door.",
+  "visual": {
+    "color": "#BB66FF",
+    "glow_intensity": 1.6
+  }
+}

@@ -1,0 +1,1 @@
+{"id":"power_ID","name":"Name","path":"ward_bearer","tier":1,"description":"What.","unlock_condition":{"min_day":1,"min_corruption":0.0,"max_corruption":1.0},"effect":{"type":"passive","stat_modifiers":{"ward_duration_mult":1.0,"damage_mult":1.0,"speed_mult":1.0}},"lore":"Flavor."}

@@ -1,0 +1,16 @@
+{
+  "id": "milns_crossing",
+  "name": "Miln's Crossing",
+  "description": "A prosperous mountain city with high stone walls and master-painted wards. Wealthy, insular, suspicious of outsiders.",
+  "biome": "mountain",
+  "population": 120,
+  "defense_rating": 0.8,
+  "ward_coverage": 0.9,
+  "position": {"x": 400, "y": 100},
+  "corruption_attitude": {
+    "tolerance": 0.25,
+    "gate_close_threshold": 0.45
+  },
+  "destroyable": false,
+  "lore": "Miln's Crossing grew wealthy on trade between the mountain passes. Their Guild of Warders maintains the most comprehensive ward-net outside of Krasia, and they know it. Merchants here charge what the market will bear and the gate guards inspect travelers closely. Anyone smelling of demon ichor is turned away — or worse. The city has not fallen in over two hundred years and its residents intend to keep it that way."
+}

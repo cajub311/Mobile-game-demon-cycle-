@@ -1,0 +1,1 @@
+{"id":"village_ID","name":"Name","description":"About.","biome":"grassland","population":50,"defense_rating":0.5,"ward_coverage":0.7,"position":{"x":0,"y":0},"corruption_attitude":{"tolerance":0.5,"gate_close_threshold":0.7},"destroyable":true}
