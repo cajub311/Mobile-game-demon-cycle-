@@ -21,6 +21,9 @@ const BASE_SPAWN_INTERVAL := 3.2
 const MIN_SPAWN_INTERVAL  := 0.7
 const NIGHT_SCORE         := 50
 
+const BANNER_DURATION  := 2.8
+const HP_REGEN_PER_DAY := 2.0
+
 # [health, speed, damage, score, color]
 const DEMON_STATS := {
 	"ground": [30.0,  52.0, 2, 10, Color(0.9,  0.22, 0.21)],
@@ -82,6 +85,11 @@ var _mode_btn     : Button
 var _ward_ct_lbl  : Label
 var _pause_btn    : Button
 var _pause_layer  : CanvasLayer
+
+# Banner refs
+var _banner_lbl   : Label
+var _banner_sub   : Label
+var _banner_timer : float = 0.0
 
 # ---------------------------------------------------------------------------
 # Initialise
@@ -164,6 +172,21 @@ func _build_hud() -> void:
 			Vector2(screen_size.x - 80, top_y + 74), 11, Color(0.4, 0.4, 0.4))
 	layer.add_child(_ward_ct_lbl)
 
+	# Phase transition banner (centred, shown briefly)
+	_banner_lbl = _make_label("", Vector2(0.0, screen_size.y * 0.28), 34,
+			Color(1.0, 0.92, 0.42))
+	_banner_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner_lbl.size = Vector2(screen_size.x, 50)
+	_banner_lbl.visible = false
+	layer.add_child(_banner_lbl)
+
+	_banner_sub = _make_label("", Vector2(0.0, screen_size.y * 0.28 + 52), 15,
+			Color(0.95, 0.70, 0.70))
+	_banner_sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner_sub.size = Vector2(screen_size.x, 28)
+	_banner_sub.visible = false
+	layer.add_child(_banner_sub)
+
 func _build_pause_overlay() -> void:
 	_pause_layer = CanvasLayer.new()
 	_pause_layer.visible = false
@@ -233,6 +256,7 @@ func _process(delta: float) -> void:
 		_tick_spawn(delta)
 	_tick_demons(delta)
 	_tick_wards(delta)
+	_tick_banner(delta)
 	_refresh_hud()
 	queue_redraw()
 
@@ -247,13 +271,18 @@ func _tick_phase(delta: float) -> void:
 		spawn_interval = maxf(MIN_SPAWN_INTERVAL,
 				BASE_SPAWN_INTERVAL - (day_count - 1) * 0.25)
 		spawn_timer   = 1.0
+		_show_night_banner()
 	else:
 		phase       = Phase.DAY
 		phase_timer = DAY_DURATION
 		day_count  += 1
 		score      += NIGHT_SCORE
+		# Small HP recovery at dawn — reward surviving the night
+		player_hp   = minf(PLAYER_MAX_HP, player_hp + HP_REGEN_PER_DAY)
 		demons.clear()
 		wards.clear()
+		_show_banner("☀  DAWN  —  DAY " + str(day_count),
+				"+" + str(int(HP_REGEN_PER_DAY)) + " HP restored", Color(0.4, 1.0, 0.55))
 
 func _tick_player(delta: float) -> void:
 	inv_timer = maxf(0.0, inv_timer - delta)
@@ -489,6 +518,9 @@ func _draw_demon(d: Dictionary) -> void:
 				pos + Vector2(-14, 12),
 			]), col)
 		"flame":
+			# Outer fire glow
+			draw_circle(pos, 22.0, Color(1.0, 0.38, 0.0, 0.18))
+			draw_circle(pos, 15.0, Color(1.0, 0.56, 0.0, 0.22))
 			draw_colored_polygon(PackedVector2Array([
 				pos + Vector2(0, -18),
 				pos + Vector2(10,   8),
@@ -497,6 +529,11 @@ func _draw_demon(d: Dictionary) -> void:
 			]), col)
 			draw_circle(pos + Vector2(0, -10), 6.0, Color(1.0, 0.80, 0.16))
 			draw_circle(pos + Vector2(0, -10), 3.0, Color(1.0, 0.44, 0.0))
+			# Speed trail dots
+			var trail_dir := (player_pos - pos).normalized()
+			for t in 3:
+				var tp := pos - trail_dir * (float(t + 1) * 8.0)
+				draw_circle(tp, 3.5 - t, Color(1.0, 0.56, 0.0, 0.35 - t * 0.10))
 		"rock":
 			draw_colored_polygon(PackedVector2Array([
 				pos + Vector2(-14, -8),
@@ -544,6 +581,41 @@ func _handle_game_over() -> void:
 	GameData.nights_survived = day_count - 1
 	await get_tree().create_timer(0.75).timeout
 	get_tree().change_scene_to_file("res://scenes/GameOver.tscn")
+
+# ---------------------------------------------------------------------------
+# Banner helpers
+# ---------------------------------------------------------------------------
+
+func _show_night_banner() -> void:
+	var title    := "🌙 NIGHT " + str(day_count) + " BEGINS"
+	var subtitle := ""
+	match day_count:
+		2: subtitle = "⚡ Flame demons appear — they are fast!"
+		4: subtitle = "🪨 Rock demons appear — tough and slow"
+		_:
+			if day_count > 4:
+				subtitle = "Darkness deepens — survive!"
+	_show_banner(title, subtitle, Color(0.808, 0.576, 0.847))
+
+func _show_banner(title: String, subtitle: String = "", col: Color = Color(1.0, 0.92, 0.42)) -> void:
+	_banner_lbl.text = title
+	_banner_lbl.add_theme_color_override("font_color", col)
+	_banner_lbl.visible = true
+	_banner_sub.text    = subtitle
+	_banner_sub.visible = subtitle != ""
+	_banner_timer       = BANNER_DURATION
+
+func _tick_banner(delta: float) -> void:
+	if _banner_timer <= 0.0:
+		return
+	_banner_timer -= delta
+	# Fade alpha during last 0.6 s
+	var alpha := clampf(_banner_timer / 0.6, 0.0, 1.0)
+	_banner_lbl.modulate.a = alpha
+	_banner_sub.modulate.a = alpha
+	if _banner_timer <= 0.0:
+		_banner_lbl.visible = false
+		_banner_sub.visible = false
 
 # ---------------------------------------------------------------------------
 # Helpers
